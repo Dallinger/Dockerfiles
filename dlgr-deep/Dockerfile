@@ -111,7 +111,7 @@ RUN apt-get update && apt-get install -y \
 	rm -rf /var/lib/apt/lists/*
 
 # Install Dallinger
-pip --no-cache-dir install git+git://github.com/Dallinger/Dallinger.git@${DALLINGER_VERSION}
+RUN pip --no-cache-dir install git+git://github.com/Dallinger/Dallinger.git@${DALLINGER_VERSION}
 
 # Install other useful Python packages using pip
 RUN pip --no-cache-dir install --upgrade ipython && \
