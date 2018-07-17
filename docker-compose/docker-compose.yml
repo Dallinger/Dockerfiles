@@ -1,22 +1,33 @@
-version: '2'
+version: '2.1'
+# V2.1 introduced healthcheck
+# https://github.com/peter-evans/docker-compose-healthcheck/blob/master/README.md
 
 services:
 
   dallinger:
+    tty: true
     build:
       context: .
-      dockerfile: Dockerfile    
+      dockerfile: Dockerfile
     environment:
       - DISPLAY
       - REDIS_URL=redis://redis:6379
       - DATABASE_URL=postgresql://dallinger:dallinger@postgresql/dallinger
     volumes:
       - ./tests:/usr/src/app/tests
-    restart: always
-    command: /bin/bash -c "cd /home/Dallinger/demos/dlgr/demos/snake && dallinger debug --verbose"
+#    restart: always
+#    command: /bin/bash -c "cd /home/Dallinger/demos/dlgr/demos/snake && dallinger debug --verbose"
+#    command: >
+#           /bin/bash -c "cd /home/Dallinger/demos/dlgr/demos/snake"
+#           && dallinger debug --verbose"
+#    entrypoint:
+#      - /bin/bash
     depends_on:
-      - redis
-      - postgresql
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
     ports:
       - "5000:5000"
 
@@ -31,6 +42,12 @@ services:
       - /var/run/postgresql:/var/run/postgresql
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   redis:
     image: redis:alpine
     ports:

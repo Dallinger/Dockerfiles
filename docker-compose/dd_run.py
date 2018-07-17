@@ -3,6 +3,7 @@
 # ==================================================================================================
 # Script settings:
 browser = 'firefox' # Possible options are 'firefox', 'iexplore', 'chrome', 'opera'
+					# modify the script on your own below, if other browser support is needed (line 64)
 log_file = 'log_dallinger.txt' # Name of output log file to read from
 new_window = True # Open new browser windows (Set to False to reuse existing browser windows)
 docker_machine_ip = "192.168.99.100" # docker-machine address
@@ -48,7 +49,7 @@ print()
 print('Waiting ' + str(dallinger_startup_delay) + ' seconds for Dallinger to start.')
 
 import time
-time.sleep(dallinger_startup_delay) 
+time.sleep(dallinger_startup_delay)
 
 print('')
 print('======================')
@@ -59,16 +60,18 @@ print(' = If you need to manually stop this script before it completes.      =')
 print(' = Please run \"docker-compose down\" before running this script again  =')
 print(' = This is to clean out any unfinished running experiments.           =')
 print('')
+print(' Use CONTRL-C to stop this script ');
 
 if browser not in ['firefox', 'iexplore', 'chrome', 'opera']:
 	browser = 'iexplore' # XXX check for edge in win10?
-	
+
 urls = []
 parsed_urls = []
 displayed_urls = []
 
+# XXX CHECK FOR SOME EXIT CONDITION!
 while True:
-	
+
 	# Grab the latest logs
 	command = "docker-compose logs dallinger |& tee " + log_file
 	output = subprocess.check_output(['bash','-c', command])
@@ -90,8 +93,8 @@ while True:
 		port = url_parsed.netloc.split(':')[1] # keep the same port
 		url = url_parsed._replace(netloc="{}:{}".format(parsed_hostname, port))
 		parsed_urls.append(url.geturl())
-		
-	# Open dallinger windows in browser specified 	
+
+	# Open dallinger windows in browser specified
 	for url in parsed_urls:
 		if url not in displayed_urls:
 			print("Displaying: " + url)
@@ -104,16 +107,20 @@ while True:
 
 	time.sleep(1)
 
-# SHUTDOWN	
+# SHUTDOWN
+print('')
+print('Shutting down Dallinger..')
 command = "docker-compose down"
-output = subprocess.check_output(['bash','-c', command])	
-	
-# TODO	
-# ==========================================
+output = subprocess.check_output(['bash','-c', command])
 
+print('')
+print(' Running docker-compose ps:')
+command = "docker-compose ps"
+output = subprocess.check_output(['bash','-c', command])
+print('------------------------------')
+
+
+# ==========================================
+# TODO
 # check what "Session complete" means?
 # how do we know that dallinger is done with experiment? - run local to see  - see if we can add a graceful exit to while loop
-# allow users to run other experiments
-
-# fix dallinger installation
-# ===========================================
