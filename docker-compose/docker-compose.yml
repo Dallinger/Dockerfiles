@@ -1,11 +1,13 @@
 version: '2.1'
-# V2.1 introduced healthcheck
+# v2.1 introduced healthcheck
 # https://github.com/peter-evans/docker-compose-healthcheck/blob/master/README.md
 
 services:
 
   dallinger:
-    tty: true
+    # to prevent exit with code 0 condition
+    tty: true 
+
     build:
       context: .
       dockerfile: Dockerfile
@@ -15,28 +17,27 @@ services:
       - DATABASE_URL=postgresql://dallinger:dallinger@postgresql/dallinger
     volumes:
       - ./tests:/usr/src/app/tests
-#    restart: always
+#    restart: always  
+#    command: /bin/bash -c "cd /home/mongates_dallinger_demos/memoryexpt2 && dallinger debug --verbose"
 #    command: /bin/bash -c "cd /home/Dallinger/demos/dlgr/demos/snake && dallinger debug --verbose"
-#    command: >
-#           /bin/bash -c "cd /home/Dallinger/demos/dlgr/demos/snake"
-#           && dallinger debug --verbose"
-#    entrypoint:
-#      - /bin/bash
+    command: >
+           /bin/bash -c "cd /home/mongates_dallinger_demos/memoryexpt2 
+           && dallinger debug --verbose"
     depends_on:
       postgresql:
         condition: service_healthy
       redis:
         condition: service_started
-
     ports:
       - "5000:5000"
 
   postgresql:
-    image: postgres:9.4
+    image: postgres:10.4
     environment:
       - POSTGRES_DB=dallinger
       - POSTGRES_PASSWORD=dallinger
       - POSTGRES_USER=dallinger
+      - PG_DATA=/var/lib/postgresql/data/pgdata
     volumes:
       - dallinger:/var/lib/postgresql/data
       - /var/run/postgresql:/var/run/postgresql
@@ -49,7 +50,7 @@ services:
       retries: 5
 
   redis:
-    image: redis:alpine
+    image: redis:4.0-alpine
     ports:
       - "6379:6379"
 
