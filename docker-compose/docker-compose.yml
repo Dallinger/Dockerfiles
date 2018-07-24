@@ -18,6 +18,7 @@ services:
 #    command: /bin/bash -c "cd /home/mongates_dallinger_demos/memoryexpt2 && dallinger debug --verbose"
 #    command: /bin/bash -c "cd /home/Dallinger/demos/dlgr/demos/snake && dallinger debug --verbose"
 #    command: /bin/bash -c "cd /home/Griduniverse/dlgr/griduniverse && dallinger debug --verbose"
+#    command: /bin/bash
     command: >
            /bin/bash -c "cd /home/mongates_dallinger_demos/memoryexpt2 
            && dallinger debug --verbose"
