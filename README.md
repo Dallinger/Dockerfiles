@@ -16,18 +16,19 @@ Bartlett, Memory experiment 2 and Snake have been run successfully (debug mode).
 
 As of 07/24/2018 there are yet unsolved issues with running GridUniverse under Docker.
 
-Sandbox mode has not been tested. Running in sandbox mode would require to supply their credentials to the container to login via Heroku. Unsolved and unattempted.
+Sandbox mode has not been tested. Running in sandbox mode would rerquire users to supply their credentials to the container to login via Heroku. Unsolved and unattempted.
 
 
 ## Installation
 
- As a preliminary step, I find that running Kinematic first (until it asks for a dockerhub account login) seems to smooth out the process of Docker iitializing itself on a Windows7 machine.
+ As a preliminary step, I find that running Kinematic first (until it asks for a Dockerhub account login) seems to smooth out the process of Docker initializing itself on a Windows7 machine.
 
 Open Docker Quickstart Terminal (interactive command line shell)
 
-Run ``` docker-compose up -d ``` . This will pull in all the containers necessary and start them in detached mode. This pulling of containers may take a few minutes (depending on your internet connection speed).
+Run ``` docker-compose up -d ``` . This will pull in all the containers necessary and start them in detached mode.   
+This pulling of containers may take a few minutes (depending on your internet connection speed).
 
-After the porcess has completed, to see the status of the containers:
+After the process has completed, to see the status of the containers:
 ``` docker-compose ps ```
 
 To stop your containers:
