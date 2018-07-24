@@ -77,7 +77,7 @@ After an exit condition is reached, the script will shutdown the docker containe
 If the dd_run.py script needed to be preemptively stopped (Ctrl-C), it is necessary to run the ``` docker-compose stop ``` command to stop the containers before running the script again.
 Alternatively the dd_stop.sh script can be used, which will stop the containers and display their stopped status after by calling ``` docker-compose ps ```.
 
-## dd_run.py optional configuration
+## dd_run.py configuration options
 
 The dd_run.py script can be configured either in the script itself and/or through command line parameters.   
 The command line parameters that can be set are:
@@ -101,7 +101,7 @@ In the script there are other configuration options documented at the beginning 
 * ``` override_port ``` - This will override all the port parts of the experiment's urls to port 5000, otherwise whatever port the experiment desires will be used (however it might be necessary to expose those ports in the Dockerfile first)
 
 
-## Debugging options
+## Debugging
 
 Running ``` docker-compose up ``` (normal, non-detached mode) can be used to inspect the current state, by viewing the console output. 
 
@@ -137,7 +137,7 @@ I find the following process to be more foolproof (though more time consuming):
 * If necessary stop the containers: ```	docker-compose stop ```
 
 
-## Compatibiliy and testing notes
+## Compatibility and testing notes
 
 Windows 7 currently supports Docker-Toolbox (an older version).
 
