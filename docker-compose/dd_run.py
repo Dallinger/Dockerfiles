@@ -3,10 +3,11 @@
 # ======================================================================================================
 # Script settings:
 browser = 'firefox' # Possible options are 'firefox', 'iexplore', 'chrome', 'opera' 'microsoft-edge'
-					# modify the script on your own below, if other browser support is needed (line 82)
+					# modify the script below, if other browser support is needed (line 83)
 log_file = 'log_dallinger.txt' # Name of output log file to read from
 new_window = True # Open new browser windows (Set to False to reuse existing browser windows)
-dallinger_startup_delay = 2 # delay in seconds to allow dallinger to complete its startup processes
+dallinger_startup_delay = 0 # delay in seconds to allow dallinger to complete its startup processes
+							# set to 0 to bypass
 override_port = True # This will override the port of the experiment to port 5000
 # ======================================================================================================
 
@@ -62,10 +63,10 @@ try:
 except:
 	pass
 
-print('')
-print('Waiting ' + str(dallinger_startup_delay) + ' seconds for Dallinger to start.')
-
-time.sleep(dallinger_startup_delay) 
+if dallinger_startup_delay != 0:
+	print('')
+	print('Waiting ' + str(dallinger_startup_delay) + ' seconds for Dallinger to start.')
+	time.sleep(dallinger_startup_delay)
 
 print('')
 print('======================')
@@ -73,7 +74,7 @@ print(' Dallinger is running ')
 print('======================')
 print('')
 print(' =  If you need to manually stop this script before it has completed:  =')
-print(' =  Please run \"docker-compose down\" before running this script again  =')
+print(' =  Please run \"docker-compose stop\" before running this script again  =')
 print(' =  This is to clean out any unfinished running experiments.           =')
 print('')
 print(' Use CONTRL-C to stop this script ');
@@ -90,15 +91,25 @@ experiment_complete = False
 
 while not experiment_complete:
     try:
-		# Grab the latest logs
+		# Grab the latest state of the outout log
 		command = "docker-compose logs dallinger |& tee " + log_file
 		output = subprocess.check_output(['bash','-c', command])
 		print("Reading Dallinger output log..")
+		try:
+			f = open(os.path.join(__location__, log_file), 'r');
+			lines = f.readlines()
+			f.close()
+		except IOError:
+			print('')
+			print("Could not read experiment log file. Exiting.")
+			break
 
-		f = open(os.path.join(__location__, log_file), 'r');
-		lines = f.readlines()
-		f.close()
+    except KeyboardInterrupt:
+		print('')
+		print('Ctrl-C pressed.')
+		break
 
+    try:
 		searchtxt = "New participant requested:"
 		exit_txt = ["Experiment completed", "Cleaning up local Heroku process"]
 		for i, line in enumerate(lines):
@@ -109,16 +120,26 @@ while not experiment_complete:
 					if not experiment_complete:
 						print("Experiment complete.")
 						experiment_complete = True
+    except KeyboardInterrupt:
+		print('')
+		print('Ctrl-C pressed.')
+		break
 
+    try:
 		parsed_hostname = docker_machine_ip
 		for x in urls:
 			url_parsed = urlparse(x)
 			port = url_parsed.netloc.split(':')[1] # keep the same port
-			if override_port: port = 5000
+			if override_port: port = 5000 # override port if desired
 			url = url_parsed._replace(netloc="{}:{}".format(parsed_hostname, port))
 			parsed_urls.append(url.geturl())
-			
-		# Open dallinger windows in browser specified 	
+    except KeyboardInterrupt:
+		print('')
+		print('Ctrl-C pressed.')
+		break
+
+    try:
+		# Open dallinger windows in browser specified
 		for url in parsed_urls:
 			if url not in displayed_urls:
 				print("Displaying: " + url)
@@ -134,7 +155,6 @@ while not experiment_complete:
 					command = 'start ' + browser + ' \"' + url + '\"'
 				output = subprocess.check_output(['bash','-c', command])
 				displayed_urls.append(url)
-
     except KeyboardInterrupt:
 		print('')
 		print('Ctrl-C pressed.')

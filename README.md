@@ -77,6 +77,8 @@ After an exit condition is reached, the script will shutdown the docker containe
 If the dd_run.py script needed to be preemptively stopped (Ctrl-C), it is necessary to run the ``` docker-compose stop ``` command to stop the containers before running the script again.
 Alternatively the dd_stop.sh script can be used, which will stop the containers and display their stopped status after by calling ``` docker-compose ps ```.
 
+**Note:** If the experiment uses another method to indicate that it has completed than the ones specified in the script, it is necessary to manually stop the script using Ctrl-C, and in the case that the script does not shutdown the containers manually, follow with the cleanup mentioned in the previous paragraph.
+
 ## dd_run.py configuration options
 
 The dd_run.py script can be configured either in the script itself and/or through command line parameters.   
@@ -146,7 +148,6 @@ Docker-Toolbox is the recommended version for Windows 7 and the newer Docker Com
 The dd_run.py script setup has not been tested on Windows 10. (With the exception of integrating microsoft-edge command line syntax into the script, syntax tested in a Windows 10 VM)
 
 The dd_run.py script has been tested with Python 2.7.12, however provisions were made in the script to work with Python 3 (not explicitly tested)
-
 
 ## Reference of useful docker-compose commands
 
