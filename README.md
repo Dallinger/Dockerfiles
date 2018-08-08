@@ -1,12 +1,12 @@
-# State of Docker Windows support experiment
+# State of Docker support
 
-07/24/2018
+08/08/2018
 
 ## Objectives
 
   Ideally
   
-  * Windows users should be able to run Dallinger experiments and specify the experiment that they wish to run, easily.
+  * Users of Windows, Mac OSX and Ubuntu should be able to run Dallinger experiments and specify the experiment that they wish to run, easily.
   * Are able to pick the Dallinger release version they want to run the experiments against, or use their own fork of Dallinger to do so with.
 
 
@@ -14,14 +14,37 @@
 
 Bartlett, Memory experiment 2 and Snake have been run successfully (debug mode).
 
-As of 07/24/2018 there are yet unsolved issues with running GridUniverse under Docker.
+As of 08/08/2018 there are yet unsolved issues with running GridUniverse under Docker.
 
 Sandbox mode has not been tested. Running in sandbox mode would rerquire users to supply their credentials to the container to login via Heroku. Unsolved and unattempted.
 
-
 ## Installation
 
- As a preliminary step, I find that running Kinematic first (until it asks for a Dockerhub account login) seems to smooth out the process of Docker initializing itself on a Windows7 machine.
+Note that running VPN software may interfere in the setup and running processes of docker-compose and docker-machine.
+
+### Windows 7
+
+ As a preliminary step, I find that running Kitematic first (until it asks for a Dockerhub account login) seems to smooth out the process of Docker initializing itself on a Windows7 machine. (This installs and sets up virtualbox which is needed for the docker-machine to run, which is required by the script.)
+
+### Mac OSX
+
+Docker for OSX does not by default allow for the creation of docker-machines. To do this you will need to have virtualbox installed on your system. You can get it here: https://www.virtualbox.org/wiki/Downloads
+
+Once virtualbox has been installed, navigate to your terminal and create a new docker-machine:
+```docker-machine create -d "virtualbox" default```
+
+More info:
+https://docs.docker.com/machine/get-started/#prerequisite-information
+
+
+### Ubuntu
+
+Start the docker daemon, typically by running ``` sudo dockerd ``` in another terminal.
+
+
+Note: if you happen to have Postgresql and/or Redis installed in your system, make sure they are not running when you run Dallinger via Docker.
+
+## Installation continued (all systems)
 
 Open Docker Quickstart Terminal (interactive command line shell)
 
@@ -149,6 +172,7 @@ The dd_run.py script setup has not been tested on Windows 10. (With the exceptio
 
 The dd_run.py script has been tested with Python 2.7.12, however provisions were made in the script to work with Python 3 (not explicitly tested)
 
+
 ## Reference of useful docker-compose commands
 
 * ``` docker-compose ```
@@ -160,3 +184,4 @@ The dd_run.py script has been tested with Python 2.7.12, however provisions were
 * ``` docker-compose ps ```
 * ``` docker-compose build ```
 * ``` docker-compose down --rmi all ```
+
