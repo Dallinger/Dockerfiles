@@ -24,11 +24,13 @@ Note that running VPN software may interfere in the setup and running processes 
 
 ### Windows 7
 
- As a preliminary step, I find that running Kitematic first (until it asks for a Dockerhub account login) seems to smooth out the process of Docker initializing itself on a Windows7 machine. (This installs and sets up virtualbox which is needed for the docker-machine to run, which is required by the script.)
+ As a preliminary step, I find that running Kitematic first (until it asks for a Dockerhub account login) seems to smooth out the process of Docker initializing itself on a Windows7 machine. This installs and sets up virtualbox which is needed for the docker-machine to run, which is required by the dd_run.py script.
+
+Open Docker Quickstart Terminal (interactive command line shell)
 
 ### Mac OSX
 
-Docker for OSX does not by default allow for the creation of docker-machines. To do this you will need to have virtualbox installed on your system. You can get it here: https://www.virtualbox.org/wiki/Downloads
+Docker for OSX does not by default allow for the creation of docker-machines. To create a docker-machine (which is required to run the dd_run.py script later on in this process), you will need to have virtualbox installed on your system. You can get it here: https://www.virtualbox.org/wiki/Downloads
 
 Once virtualbox has been installed, navigate to your terminal and create a new docker-machine:
 ```docker-machine create -d "virtualbox" default```
@@ -39,14 +41,16 @@ https://docs.docker.com/machine/get-started/#prerequisite-information
 
 ### Ubuntu
 
-Start the docker daemon, typically by running ``` sudo dockerd ``` in another terminal.
+Navigate to a terminal.
 
+Start the docker daemon, typically by running ``` sudo dockerd ``` in a terminal.
+
+Open another terminal where you will run docker commands and script.
 
 Note: if you happen to have Postgresql and/or Redis installed in your system, make sure they are not running when you run Dallinger via Docker.
 
 ## Installation continued (all systems)
 
-Open Docker Quickstart Terminal (interactive command line shell)
 
 Run ``` docker-compose up -d ``` . This will pull in all the containers necessary and start them in detached mode.   
 This pulling of containers may take a few minutes (depending on your internet connection speed).
