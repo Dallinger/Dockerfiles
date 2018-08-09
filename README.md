@@ -128,7 +128,7 @@ In the script there are other configuration options documented at the beginning 
 
 Running ``` docker-compose up ``` (normal, non-detached mode) can be used to inspect the current state, by viewing the console output. 
 
-The output logs of all three containers can be extracted using the ``` dd_logs.sh ``` script and inspected by running: ``` ./dd_logs.sh ``` .)
+The output logs of all three containers can be extracted using the ``` dd_logs.sh ``` script and inspected by running: ``` ./dd_logs.sh ```
 
 One can also manually extract and view the current Dallinger log with: 
 
