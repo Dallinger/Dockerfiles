@@ -30,14 +30,7 @@ Open Docker Quickstart Terminal (interactive command line shell)
 
 ### Mac OSX
 
-Docker for OSX does not by default allow for the creation of docker-machines. To create a docker-machine (which is required to run the dd_run.py script later on in this process), you will need to have virtualbox installed on your system. You can get it here: https://www.virtualbox.org/wiki/Downloads
-
-Once virtualbox has been installed, navigate to your terminal and create a new docker-machine:
-```docker-machine create -d "virtualbox" default```
-
-More info:
-https://docs.docker.com/machine/get-started/#prerequisite-information
-
+Navigate to a new terminal and continue with instructions in "Installation continued (all systems)" section.
 
 ### Ubuntu/Linux
 
@@ -54,8 +47,7 @@ Note: if you happen to have Postgresql and/or Redis installed in your system, ma
 ## Installation continued (all systems)
 
 
-Run ``` docker-compose up -d ``` . This will pull in all the containers necessary and start them in detached mode.   
-This pulling of containers may take a few minutes (depending on your internet connection speed).
+Run ``` docker-compose up -d ``` . This will pull in all the containers necessary and start them in detached mode.
 
 After the process has completed, to see the status of the containers:
 ``` docker-compose ps ```
@@ -104,13 +96,13 @@ or for a ``` KeyboardInterrupt ``` (Ctrl-C) condition.
 After an exit condition is reached, the script will shutdown the docker containers and exit. It can take a moment for the script to realize that the experiment has completed.
 
 If the dd_run.py script needed to be preemptively stopped (Ctrl-C), it is necessary to run the ``` docker-compose stop ``` command to stop the containers before running the script again.
-Alternatively the dd_stop.sh script can be used, which will stop the containers and display their stopped status after by calling ``` docker-compose ps ```.
+Alternatively the dd_stop.sh script can be used (by running: ``` ./dd_stop.sh ``` ), which will stop the containers and display their stopped status after by calling ``` docker-compose ps ```.
 
 **Note:** If the experiment uses another method to indicate that it has completed than the ones specified in the script, it is necessary to manually stop the script using Ctrl-C, and in the case that the script does not shutdown the containers manually, follow with the cleanup mentioned in the previous paragraph.
 
 ## dd_run.py configuration options
 
-The dd_run.py script can be configured either in the script itself and/or through command line parameters.   
+The dd_run.py script can be configured either in the script itself and/or through command line parameters.
 The command line parameters that can be set are:
 ```
 dd_run.py -b <browser> -i <machine_ip_address>'
@@ -136,7 +128,8 @@ In the script there are other configuration options documented at the beginning 
 
 Running ``` docker-compose up ``` (normal, non-detached mode) can be used to inspect the current state, by viewing the console output. 
 
-The output logs of all three containers can be extracted using the ``` dd_logs.sh ``` script and inspected.
+The output logs of all three containers can be extracted using the ``` dd_logs.sh ``` script and inspected. 
+(by running: ``` ./dd_logs.sh ``` )
 
 One can also manually extract and view the current Dallinger log with: 
 
@@ -175,13 +168,15 @@ Windows 7 currently supports Docker-Toolbox (an older version).
 Docker-Toolbox is the recommended version for Windows 7 and the newer Docker Community Edition/Docker for Windows will not install on Windows 7.
 
 The dd_run.py script setup has not been tested on Windows 10. (With the exception of integrating microsoft-edge command line syntax into the script, syntax tested in a Windows 10 VM). Windows 10 may require you to install virtualbox and setup a docker-machine by yourself.
-See https://docs.docker.com/machine/get-started/#prerequisite-information and the Mac OSX installation instructions for more info.
+See https://docs.docker.com/machine/get-started/#prerequisite-information.
 
 The dd_run.py script has been tested with Python 2.7.12, however provisions were made in the script to work with Python 3 (not explicitly tested)
 
 Tested on Ubuntu 16.04. Firefox has been found to be the most dependable browser as Google Chrome and Opera both polluted the terminal with
 their own output, blocking the script from running correctly until the browser window was closed. This may have been due to running Ubuntu
 in a VM however, more testing has not been done.
+
+Tested on OSX 10.13. Safari has been found to be buggy. Google Chrome is recommended as Firefox has trouble opening more than one instance of Firefox under OSX without additional tweaking. See https://stackoverflow.com/questions/43294774/how-to-open-new-window-in-firefox-with-terminal-on-mac
 
 
 ## Reference of useful docker-compose commands
