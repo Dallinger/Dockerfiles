@@ -174,9 +174,14 @@ Windows 7 currently supports Docker-Toolbox (an older version).
 
 Docker-Toolbox is the recommended version for Windows 7 and the newer Docker Community Edition/Docker for Windows will not install on Windows 7.
 
-The dd_run.py script setup has not been tested on Windows 10. (With the exception of integrating microsoft-edge command line syntax into the script, syntax tested in a Windows 10 VM)
+The dd_run.py script setup has not been tested on Windows 10. (With the exception of integrating microsoft-edge command line syntax into the script, syntax tested in a Windows 10 VM). Windows 10 may require you to install virtualbox and setup a docker-machine by yourself.
+See https://docs.docker.com/machine/get-started/#prerequisite-information and the Mac OSX installation instructions for more info.
 
 The dd_run.py script has been tested with Python 2.7.12, however provisions were made in the script to work with Python 3 (not explicitly tested)
+
+Tested on Ubuntu 16.04. Firefox has been found to be the most dependable browser as Google Chrome and Opera both polluted the terminal with
+their own output, blocking the script from running correctly until the browser window was closed. This may have been due to running Ubuntu
+in a VM however, more testing has not been done.
 
 
 ## Reference of useful docker-compose commands
