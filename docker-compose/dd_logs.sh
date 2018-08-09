@@ -1,5 +1,5 @@
 #!/bin/bash
-# MAC (OSX) compatible version
+# Windows, MAC (OSX) and Ubuntu/Linux compatible version
 
 ECHO "Exporting logs..."
 sleep 2

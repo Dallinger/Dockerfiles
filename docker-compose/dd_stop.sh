@@ -1,5 +1,5 @@
 #!/bin/bash
-# MAC (OSX) compatible version
+# Windows, MAC (OSX) and Ubuntu/Linux compatible version
 
 ECHO "Shutting down Dallinger"
 docker-compose stop

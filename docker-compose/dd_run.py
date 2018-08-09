@@ -3,7 +3,7 @@
 # Windows, MAC (OSX) and Ubuntu/Linux compatible version
 # ======================================================================================================
 # Script settings:
-browser = 'safari' # Possible options are 'firefox', 'chrome', 'opera' 'safari' for OSX
+browser = 'firefox' # Possible options are 'firefox', 'chrome', 'opera' 'safari' for OSX
 # Possible options are 'firefox', 'iexplore', 'chrome', 'opera' 'microsoft-edge' for Windows
 # Possible options are 'firefox', 'google-chrome', 'opera' for Linux. Note Firefox has been found 
 # to be the most robust. Opera and Google Chrome may or may not work.
@@ -46,7 +46,7 @@ for opt, arg in opts:
 platform = platform.system()
 if platform == 'Darwin': # OSX
     if browser not in ['firefox', 'chrome', 'opera', 'safari']:
-        browser = 'safari'
+        browser = 'firefox'
 elif platform == 'Windows':
     if browser not in ['firefox', 'iexplore', 'chrome', 'opera', 'microsoft-edge']:
         browser = 'iexplore'
@@ -60,15 +60,19 @@ if sys.version_info[0] == 2:
 elif sys.version_info[0] == 3:
     from urllib import parse as urlparse
 
-try:
-    # the IP to use will be read directly from docker ideally (unless user overriden)
-    if docker_machine_ip == "":
-        command = "docker-machine ip"
-        docker_machine_ip = subprocess.check_output(['bash','-c', command])
-        docker_machine_ip = docker_machine_ip.strip('\n')
-except:
-    if docker_machine_ip == "":
-        docker_machine_ip = "0.0.0.0" # backup default
+if platform in ['Linux', 'Darwin']:
+    # Linux and OSX seem to do fine without docker-machine
+    docker_machine_ip = "0.0.0.0" # backup default
+else:
+    try:
+        # the IP to use will be read directly from docker ideally (unless user overriden)
+        if docker_machine_ip == "":
+            command = "docker-machine ip"
+            docker_machine_ip = subprocess.check_output(['bash','-c', command])
+            docker_machine_ip = docker_machine_ip.strip('\n')
+    except:
+        if docker_machine_ip == "":
+            docker_machine_ip = "0.0.0.0" # backup default
 
 # Launch Dallinger
 command = "docker-compose up -d"
@@ -164,13 +168,27 @@ while not experiment_complete:
 
                 if platform == 'Darwin': # OSX
                     if browser == 'safari':
-                        command = "open -a safari " + url
+                        if new_window:
+                            command = "open -na safari " + ' \"' + url + '\"'
+                        else:
+                            command = "open -a safari " + ' \"' + url + '\"'
                     elif browser == 'chrome':
-                        command = "open -a 'Google Chrome' " + url
+                        if new_window:
+                            command = "open -na 'Google Chrome' --args --new-window " + ' \"' + url + '\"'
+                        else:
+                            command = "open -a 'Google Chrome' " + ' \"' + url + '\"'
                     elif browser == 'firefox':
-                        command = "open -a firefox " + url
+                        if new_window: # 'open -na firefox --args --new-window' fails with
+                                       # A copy of Firefox is already open. Only one copy of Firefox can be open at a time.
+                                       # Skip open in new window functionality for FF for now
+                            command = "open -a firefox " + ' \"' + url + '\"'
+                        else:
+                            command = "open -a firefox " + ' \"' + url + '\"'
                     elif browser == 'opera':
-                        command = "open -a opera " + url
+                        if new_window:
+                            command = "open -na opera --args --new-window " + ' \"' + url + '\"'
+                        else:
+                            command = "open -a opera " + ' \"' + url + '\"'
 
                 elif platform == 'Windows':
                     if browser == 'microsoft-edge': # uses different syntax (does not support new window openings)
