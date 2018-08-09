@@ -96,7 +96,7 @@ or for a ``` KeyboardInterrupt ``` (Ctrl-C) condition.
 After an exit condition is reached, the script will shutdown the docker containers and exit. It can take a moment for the script to realize that the experiment has completed.
 
 If the dd_run.py script needed to be preemptively stopped (Ctrl-C), it is necessary to run the ``` docker-compose stop ``` command to stop the containers before running the script again.
-Alternatively the dd_stop.sh script can be used (by running: ``` ./dd_stop.sh ``` ), which will stop the containers and display their stopped status after by calling ``` docker-compose ps ```.
+Alternatively the dd_stop.sh script can be used by running: ``` ./dd_stop.sh ```, which will stop the containers and display their stopped status after by calling ``` docker-compose ps ```.
 
 **Note:** If the experiment uses another method to indicate that it has completed than the ones specified in the script, it is necessary to manually stop the script using Ctrl-C, and in the case that the script does not shutdown the containers manually, follow with the cleanup mentioned in the previous paragraph.
 
@@ -128,8 +128,7 @@ In the script there are other configuration options documented at the beginning 
 
 Running ``` docker-compose up ``` (normal, non-detached mode) can be used to inspect the current state, by viewing the console output. 
 
-The output logs of all three containers can be extracted using the ``` dd_logs.sh ``` script and inspected. 
-(by running: ``` ./dd_logs.sh ``` )
+The output logs of all three containers can be extracted using the ``` dd_logs.sh ``` script and inspected by running: ``` ./dd_logs.sh ``` .)
 
 One can also manually extract and view the current Dallinger log with: 
 
@@ -144,7 +143,7 @@ Changing the Postgres version in docker-compose.yml may result in errors later. 
 
 If Dallinger runs into an error while executing in the container, it will exit with a non-zero condition. This can be seen with ``` docker-compose ps ``` and it makes it difficult to inspect and debug as one can only bash into a running container. Use the logs in this case to help you.
 
-It should, in theory, be possible to run the experiment from inside the container manually, using: ``` docker-compose exec dallinger bash ``` to enter the container (while the container is running) and then navigating to the experiment directory and running the experiment etc. (The initial command should be set to ``` command: /bin/bash ``` in the docker-compose.yml in this case.)   
+It should, in theory, be possible to run the experiment from inside the container manually, using: ``` docker-compose exec dallinger bash ``` to enter the container (while the container is running) and then navigating to the experiment directory and running the experiment etc. (The initial command should be set to ``` command: /bin/bash ``` in the docker-compose.yml in this case.)
 However, I have found that in such scenarios the output stops more or less after the Dallinger ascii art and there is no indication of activity. Parsing the logs later after exiting the container has been found to yield no useful information as to whether	the experiment ran or not.
 
 
