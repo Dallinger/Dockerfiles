@@ -39,13 +39,15 @@ More info:
 https://docs.docker.com/machine/get-started/#prerequisite-information
 
 
-### Ubuntu
+### Ubuntu/Linux
 
 Navigate to a terminal.
 
 Start the docker daemon, typically by running ``` sudo dockerd ``` in a terminal.
 
-Open another terminal where you will run docker commands and script.
+Open another terminal where you will run docker commands and script. 
+
+Note: Under Ubuntu/Linux running docker commands might require you to start each of the commands listed in the next few sections, with ``` sudo ```.
 
 Note: if you happen to have Postgresql and/or Redis installed in your system, make sure they are not running when you run Dallinger via Docker.
 
@@ -189,3 +191,4 @@ The dd_run.py script has been tested with Python 2.7.12, however provisions were
 * ``` docker-compose build ```
 * ``` docker-compose down --rmi all ```
 
+Note: Under Ubuntu/Linux running these commands might require you to start each of the commands listed above, with ``` sudo ```.

@@ -20,7 +20,7 @@ services:
 #    command: /bin/bash -c "cd /home/Griduniverse/dlgr/griduniverse && dallinger debug --verbose"
 #    command: /bin/bash
     command: >
-           /bin/bash -c "cd /home/mongates_dallinger_demos/memoryexpt2 
+           /bin/bash -c "cd /home/Dallinger/demos/dlgr/demos/bartlett1932 
            && dallinger debug --verbose"
     depends_on:
       postgresql:

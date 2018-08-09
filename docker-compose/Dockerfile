@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND=noninteractive
 
-LABEL Description="Docker for Dallinger" Version="1.2.1"
+LABEL Description="Docker for Dallinger" Version="2.0"
 
 # Not in use currently
 ARG DALLINGER_VERSION=4.0.0

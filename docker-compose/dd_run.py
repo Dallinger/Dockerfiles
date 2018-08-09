@@ -1,18 +1,20 @@
 #!/usr/bin/python
 
-# MAC (OSX) compatible version
+# Windows, MAC (OSX) and Ubuntu/Linux compatible version
 # ======================================================================================================
 # Script settings:
 browser = 'safari' # Possible options are 'firefox', 'chrome', 'opera' 'safari' for OSX
 # Possible options are 'firefox', 'iexplore', 'chrome', 'opera' 'microsoft-edge' for Windows
-# Possible options are 'firefox', 'google-chrome', 'opera' for Linux
-# modify the script below, if other browser support is needed (line 44)
+# Possible options are 'firefox', 'google-chrome', 'opera' for Linux. Note Firefox has been found 
+# to be the most robust. Opera and Google Chrome may or may not work.
+# modify the script below, if other browser support is needed (line 48)
 log_file = 'log_dallinger.txt' # Name of output log file to read from
 new_window = True # Open new browser windows (Set to False to reuse existing browser windows)
                   # Note: This might not be possible on all browsers listed above
 dallinger_startup_delay = 0 # delay in seconds to allow dallinger to complete its startup processes
                             # set to 0 to bypass
 override_port = True # This will override the port of the experiment to port 5000
+use_sudo_for_linux = True # This will prepend sudo to all docker commands the script runs in Linux
 # ======================================================================================================
 
 import platform
@@ -69,8 +71,8 @@ except:
         docker_machine_ip = "0.0.0.0" # backup default
 
 # Launch Dallinger
-
 command = "docker-compose up -d"
+if platform == 'Linux' and use_sudo_for_linux: command = "sudo " + command
 output = subprocess.check_output(['bash','-c', command])
 
 # delete old output log if it exists
@@ -107,6 +109,7 @@ while not experiment_complete:
     try:
         # Grab the latest state of the outout log
         command = "docker-compose logs dallinger >& " + log_file
+        if platform == 'Linux' and use_sudo_for_linux: command = "sudo " + command
         output = subprocess.check_output(['bash','-c', command])
         print("Reading Dallinger output log..")
         try:
@@ -182,10 +185,10 @@ while not experiment_complete:
                         command = 'start ' + browser + ' \"' + url + '\"'
 
                 elif platform == 'Linux':
-                    if new_window:
-                        command = browser + ' -new-window \"' + url + '\"'
+                    if new_window: # '&' makes the browser run in background and not block the terminal. # Does this work?
+                        command = browser + ' -new-window \"' + url + '\"' + ' &'
                     else:
-                        command = browser + ' \"' + url + '\"'
+                        command = browser + ' \"' + url + '\"' + ' &'
 
                 output = subprocess.check_output(['bash','-c', command])
                 displayed_urls.append(url)
@@ -198,4 +201,5 @@ while not experiment_complete:
 print('')
 print('Shutting down Dallinger..')
 command = "docker-compose down"
+if platform == 'Linux' and use_sudo_for_linux: command = "sudo " + command
 output = subprocess.check_output(['bash','-c', command])
