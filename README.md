@@ -1,6 +1,6 @@
 # State of Docker support
 
-08/08/2018
+20 August 2018
 
 ## Objectives
 
@@ -14,7 +14,7 @@
 
 Bartlett, Memory experiment 2 and Snake have been run successfully (debug mode).
 
-As of 08/08/2018 there are yet unsolved issues with running GridUniverse under Docker.
+As of 20 Aug 2018 there are yet unsolved issues with running GridUniverse under Docker.
 
 Sandbox mode has not been tested. Running in sandbox mode would rerquire users to supply their credentials to the container to login via Heroku. Unsolved and unattempted.
 
@@ -22,9 +22,11 @@ Sandbox mode has not been tested. Running in sandbox mode would rerquire users t
 
 Note that running VPN software may interfere in the setup and running processes of docker-compose and docker-machine.
 
-### Windows 7
+### Windows 7 and Windows 10 (using Docker-Toolbox)
 
- As a preliminary step, I find that running Kitematic first (until it asks for a Dockerhub account login) seems to smooth out the process of Docker initializing itself on a Windows7 machine. This installs and sets up virtualbox which is needed for the docker-machine to run, which is required by the dd_run.py script.
+Make sure that Python is installed on your system. 
+
+As a preliminary step, I find that running Kitematic first (until it asks for a Dockerhub account login) seems to smooth out the process of Docker initializing itself on a Windows7 machine. This installs and sets up virtualbox which is needed for the docker-machine to run, which is required by the dd_run.py script.
 
 Open Docker Quickstart Terminal (interactive command line shell)
 
@@ -162,20 +164,33 @@ I find the following process to be more foolproof (though more time consuming):
 
 ## Compatibility and testing notes
 
-Windows 7 currently supports Docker-Toolbox (an older version).
-
+Windows 7 currently supports Docker-Toolbox (an older version of Docker).
 Docker-Toolbox is the recommended version for Windows 7 and the newer Docker Community Edition/Docker for Windows will not install on Windows 7.
 
-The dd_run.py script setup has not been tested on Windows 10. (With the exception of integrating microsoft-edge command line syntax into the script, syntax tested in a Windows 10 VM). Windows 10 may require you to install virtualbox and setup a docker-machine by yourself.
-See https://docs.docker.com/machine/get-started/#prerequisite-information.
+Windows 10 also supports Docker-Toolbox, this script has been tested to be working in Windows 10 using Docker-Toolbox.
 
-The dd_run.py script has been tested with Python 2.7.12, however provisions were made in the script to work with Python 3 (not explicitly tested)
+Docker for Windows under Windows 10 is currently not supported:
+This is because Docker-toolbox provides an environment where bash commands can be executed and the script requires bash commands to be executed for it to work. Docker for Windows does not provide bash and requires one to use Powershell with Docker. The script will not run in a plain Powershell environment as Powershell does not support Bash commands.
 
 Tested on Ubuntu 16.04. Firefox has been found to be the most dependable browser as Google Chrome and Opera both polluted the terminal with
 their own output, blocking the script from running correctly until the browser window was closed. This may have been due to running Ubuntu
 in a VM however, more testing has not been done.
 
 Tested on OSX 10.13. Safari has been found to be buggy. Google Chrome is recommended as Firefox has trouble opening more than one instance of Firefox under OSX without additional tweaking. See https://stackoverflow.com/questions/43294774/how-to-open-new-window-in-firefox-with-terminal-on-mac
+
+The dd_run.py script has been tested with Python 2.7.12, however provisions were made in the script to work with Python 3 (not explicitly tested)
+
+No testing was done with versions of Windows 8.
+
+## Docker troubleshooting on Windows 10
+
+These references may prove to be useful when getting Docker installed with Windows 10
+
+Get https://registry-1.docker.io/v2/: net/http: request canceled while waiting for connection:
+https://github.com/docker/for-win/issues/611
+
+Microsoft edge not seeing the docker-machine ip:
+https://www.hanselman.com/blog/FixedMicrosoftEdgeCantSeeOrOpenVirtualBoxhostedLocalWebSites.aspx
 
 
 ## Reference of useful docker-compose commands
