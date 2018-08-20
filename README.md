@@ -169,8 +169,7 @@ Docker-Toolbox is the recommended version for Windows 7 and the newer Docker Com
 
 Windows 10 also supports Docker-Toolbox, this script has been tested to be working in Windows 10 using Docker-Toolbox.
 
-Docker for Windows under Windows 10 is currently not supported:
-This is because Docker-toolbox provides an environment where bash commands can be executed and the script requires bash commands to be executed for it to work. Docker for Windows does not provide bash and requires one to use Powershell with Docker. The script will not run in a plain Powershell environment as Powershell does not support Bash commands.
+Docker for Windows under Windows 10 is currently not supported, as the script requires bash support and will not run in a plain Powershell environment. Docker for Windows does not provide bash and requires one to use Powershell with Docker, whereas Docker-toolbox provides an environment where in bash commands can be executed.
 
 Tested on Ubuntu 16.04. Firefox has been found to be the most dependable browser as Google Chrome and Opera both polluted the terminal with
 their own output, blocking the script from running correctly until the browser window was closed. This may have been due to running Ubuntu
