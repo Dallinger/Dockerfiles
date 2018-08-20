@@ -185,7 +185,7 @@ No testing was done with versions of Windows 8.
 
 These references may prove to be useful when getting Docker installed with Windows 10
 
-Get https://registry-1.docker.io/v2/: net/http: request canceled while waiting for connection:
+Get https://registry-1.docker.io/v2/: net/http: request canceled while waiting for connection:  
 https://github.com/docker/for-win/issues/611
 
 Microsoft edge not seeing the docker-machine ip:
