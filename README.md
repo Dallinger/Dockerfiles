@@ -183,12 +183,12 @@ No testing was done with versions of Windows 8.
 
 ## Docker troubleshooting on Windows 10
 
-These references may prove to be useful when getting Docker installed with Windows 10
+These references may prove useful when running Docker with Windows 10
 
 Get ht<span>tps://</span>registry-1.docker.io/v2/: net/http: request canceled while waiting for connection:  
 https://github.com/docker/for-win/issues/611
 
-Microsoft edge not seeing the docker-machine ip:  
+Microsoft edge not seeing the docker-machine IP address:  
 https://www.hanselman.com/blog/FixedMicrosoftEdgeCantSeeOrOpenVirtualBoxhostedLocalWebSites.aspx
 
 
