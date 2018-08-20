@@ -14,7 +14,7 @@
 
 Bartlett, Memory experiment 2 and Snake have been run successfully (debug mode).
 
-As of 20 Aug 2018 there are yet unsolved issues with running GridUniverse under Docker.
+There are currently unsolved issues with running GridUniverse under Docker.
 
 Sandbox mode has not been tested. Running in sandbox mode would rerquire users to supply their credentials to the container to login via Heroku. Unsolved and unattempted.
 
