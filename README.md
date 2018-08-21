@@ -211,18 +211,15 @@ When using Docker for Windows, the docker-machine might not be configured correc
 Check this by running: ``docker-machine ip``.  
 If you get an error such as:  
 ``open C:\Users\admin\.docker\machine\machines\default\config.json: The system cannot find the file specified.``  
-Look into reinstalling the default docker-machine:  
-``docker-machine rm -f default``
-and setting up a hyper-v network switch (if you don't have one):  
-https://docs.docker.com/machine/drivers/hyper-v/
-For example after setting up a virtual switch called 'ext' run:  
-``docker-machine create -d hyperv --hyperv-virtual-switch ext default``  
-to setup a new default docker-machine.
+Consider removing the default docker-machine by: ``docker-machine rm -f default``, setting up a hyper-v network switch (if you don't have one). Read more on this here: https://docs.docker.com/machine/drivers/hyper-v/  
 
-**Other troubleshooting ideas**
-https://github.com/docker/kitematic/wiki/Common-Issues-and-Fixes
+Then you can create a new docker-machine.  
+For example after setting up a virtual switch called 'ext' run: ``docker-machine create -d hyperv --hyperv-virtual-switch ext default`` to setup a new default docker-machine.
 
-**Note:** this is not a README to get your working in Windows, just some potentially helpful leads that may help you in your process.
+**Other troubleshooting ideas**  
+https://github.com/docker/kitematic/wiki/Common-Issues-and-Fixes  
+
+**Note:** These are just some potentially helpful leads that may help you in your process of getting Docker working under Windows, not by any means complete or exhaustive.
 
 
 ## Reference of useful docker-compose commands
