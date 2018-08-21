@@ -15,6 +15,7 @@ dallinger_startup_delay = 0 # delay in seconds to allow dallinger to complete it
                             # set to 0 to bypass
 override_port = True # This will override the port of the experiment to port 5000
 use_sudo_for_linux = True # This will prepend sudo to all docker commands the script runs in Linux
+use_powershell = False # override to use powershell (in case bash is also installed and you want to use Powershell)
 # ======================================================================================================
 
 import getopt
@@ -60,12 +61,13 @@ if platform == 'Windows':
     # Test for the presence of bash
     try:
         output = subprocess.check_output([shell,'--version'])
+        # Use bash unless user overrides to use Powershell
+        if use_powershell: shell = "C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe"
     except WindowsError:
-        # This likely means that Powershell is being used, as Powershell does not have bash installed.
+        # This likely means that Powershell is being used, as Powershell does not typically have bash installed.
         # Use Powershell instead of bash
         shell = "C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe"
         output = subprocess.check_output([shell, "$PSVersionTable.PSVersion"])
-
 
 # Python 2 and 3 use different urlparse methods
 if sys.version_info[0] == 2:
@@ -129,7 +131,6 @@ while not experiment_complete:
         command = "docker-compose logs dallinger > " + log_file
         if platform == 'Linux' and use_sudo_for_linux: command = "sudo " + command
         output = subprocess.check_output([shell, '-c', command])
-        #print("Reading Dallinger output log..")
         try:
             if shell == 'bash':
                 open_file = io.open(os.path.join(__location__, log_file), 'r');
