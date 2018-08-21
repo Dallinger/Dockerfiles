@@ -1,11 +1,11 @@
 # State of Docker support
 
-20 August 2018
+21 August 2018
 
 ## Objectives
 
   Ideally
-  
+
   * Users of Windows, Mac OSX and Ubuntu should be able to run Dallinger experiments and specify the experiment that they wish to run, easily.
   * Are able to pick the Dallinger release version they want to run the experiments against, or use their own fork of Dallinger to do so with.
 
@@ -22,13 +22,19 @@ Sandbox mode has not been tested. Running in sandbox mode would rerquire users t
 
 Note that running VPN software may interfere in the setup and running processes of docker-compose and docker-machine.
 
-### Windows 7 and Windows 10 (using Docker-Toolbox)
+### Windows 7 or Windows 10 (using Docker-Toolbox)
 
-Make sure that Python is installed on your system. 
+Make sure that Python is installed on your system.
 
 As a preliminary step, I find that running Kitematic first (until it asks for a Dockerhub account login) seems to smooth out the process of Docker initializing itself on a Windows7 machine. This installs and sets up virtualbox which is needed for the docker-machine to run, which is required by the dd_run.py script.
 
 Open Docker Quickstart Terminal (interactive command line shell)
+
+### Windows 10 (using Docker for Windows)
+
+Make sure that Python is installed on your system.
+
+Run the Powershell app as an administrator
 
 ### Mac OSX
 
@@ -40,7 +46,7 @@ Navigate to a terminal.
 
 Start the docker daemon, typically by running ``` sudo dockerd ``` in a terminal.
 
-Open another terminal where you will run docker commands and script. 
+Open another terminal where you will run docker commands and script.
 
 Note: Under Ubuntu/Linux running docker commands might require you to start each of the commands listed in the next few sections, with ``` sudo ```.
 
@@ -90,7 +96,7 @@ This starts up the docker containers in detached mode (just like ```docker-compo
 Once the parsing of the setup options is complete, it runs until an exit condition is reached, polling the output log of the dallinger experiment and parsing it for new recruitment requests (to open them in browser windows) and for an indication that the experiment has completed.
 
 The exit condition detection is rather simple at this point. Parsing the log for:
-``` 
+```
 exit_txt = ["Experiment completed", "Cleaning up local Heroku process"]
 ```
 or for a ``` KeyboardInterrupt ``` (Ctrl-C) condition.
@@ -111,7 +117,7 @@ dd_run.py -b <browser> -i <machine_ip_address>'
 ```
 
 eg: ``` python dd_run.py -b firefox -i 192.168.99.100 ```
-	
+
 Firefox is currently set as the default browser (however no testing takes place to check if the browser has been installed on the system). The possible browser options are: 'firefox', 'iexplore', 'chrome', 'opera' and 'microsoft-edge'. This can be expanded.
 
 Any exposed ports are available on the Docker host’s IP address (known as the "docker-machine ip").
@@ -128,7 +134,7 @@ In the script there are other configuration options documented at the beginning 
 
 ## Debugging
 
-Running ``` docker-compose up ``` (normal, non-detached mode) can be used to inspect the current state, by viewing the console output. 
+Running ``` docker-compose up ``` (normal, non-detached mode) can be used to inspect the current state, by viewing the console output.
 
 The output logs of all three containers can be extracted using the ``` dd_logs.sh ``` script and inspected by running: ``` ./dd_logs.sh ```
 
@@ -169,11 +175,11 @@ Docker-Toolbox is the recommended version for Windows 7 and the newer Docker Com
 
 Windows 10 also supports Docker-Toolbox, this script has been tested to be working in Windows 10 using Docker-Toolbox.
 
-Docker for Windows under Windows 10 is currently not supported, as the script requires bash support and will not run in a plain Powershell environment. Docker for Windows does not provide bash and requires one to use Powershell with Docker, whereas Docker-toolbox provides an environment where in bash commands can be executed.
+Docker for Windows under Windows 10 is also supported, as the script allows one to use Powershell instead of Bash.
+If Bash is installed on Windows 10 as part of the "Windows Sybsystem for Linux" option, it will likely be good to force
+the script to use Powershell. This is a configurable setting in the script.
 
-Tested on Ubuntu 16.04. Firefox has been found to be the most dependable browser as Google Chrome and Opera both polluted the terminal with
-their own output, blocking the script from running correctly until the browser window was closed. This may have been due to running Ubuntu
-in a VM however, more testing has not been done.
+Tested on Ubuntu 16.04. Firefox has been found to be the most dependable browser as Google Chrome and Opera both polluted the terminal with their own output, blocking the script from running correctly until the browser window was closed. This may have been due to running Ubuntu in a VM however, more testing has not been done.
 
 Tested on OSX 10.13. Safari has been found to be buggy. Google Chrome is recommended as Firefox has trouble opening more than one instance of Firefox under OSX without additional tweaking. See https://stackoverflow.com/questions/43294774/how-to-open-new-window-in-firefox-with-terminal-on-mac
 
@@ -183,13 +189,39 @@ No testing was done with versions of Windows 8.
 
 ## Docker troubleshooting on Windows 10
 
-These references may prove useful when running Docker with Windows 10
+These references may prove useful when running Docker in a Windows 10 environment:
+
+#Docker machine
 
 Get ht<span>tps://</span>registry-1.docker.io/v2/: net/http: request canceled while waiting for connection:  
 https://github.com/docker/for-win/issues/611
 
 Microsoft edge not seeing the docker-machine IP address:  
 https://www.hanselman.com/blog/FixedMicrosoftEdgeCantSeeOrOpenVirtualBoxhostedLocalWebSites.aspx
+
+#Docker for Windows
+
+If you had Docker-toolbox installed before and are now using Docker for Windows:  
+https://github.com/docker/for-win/issues/1746
+
+If your experiment is running but you see no output in the browser window(s) when they launch.
+Try running the script with the ``-i 127.0.0.1`` option.
+
+When using Docker for Windows, the docker-machine might not be configured correctly.
+Check this by running: ``docker-machine ip``. If you get an error such as:  
+``open C:\Users\admin\.docker\machine\machines\default\config.json: The system cannot find the file specified.``  
+Look into reinstalling the default docker-machine: 
+``docker-machine rm -f default``
+and setting up a hyper-v network switch (if you don't have one):  
+https://docs.docker.com/machine/drivers/hyper-v/
+For example after setting up a virtual switch called 'ext' run:
+``docker-machine create -d hyperv --hyperv-virtual-switch ext default``
+to setup a new default docker-machine.
+
+Other troubleshooting ideas:  
+https://github.com/docker/kitematic/wiki/Common-Issues-and-Fixes
+
+Having said that, this is not a README to get your working in Windows, just some potentially helpful leads that may help you in your process.
 
 
 ## Reference of useful docker-compose commands
