@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # Windows, MAC (OSX) and Ubuntu/Linux compatible version
-# ======================================================================================================
+# ====================================================================================================
 # Script settings:
 
 browser = 'firefox' 
@@ -27,7 +27,7 @@ use_sudo_for_linux = True # This will prepend sudo to all docker commands the sc
 
 use_powershell = False # override to use Powershell (in case Bash is also installed and you want to
                        # use Powershell)
-# ======================================================================================================
+# ====================================================================================================
 
 import getopt
 import io
