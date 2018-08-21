@@ -48,9 +48,9 @@ Start the docker daemon, typically by running ``` sudo dockerd ``` in a terminal
 
 Open another terminal where you will run docker commands and script.
 
-Note: Under Ubuntu/Linux running docker commands might require you to start each of the commands listed in the next few sections, with ``` sudo ```.
+**Note:** Under Ubuntu/Linux running docker commands might require you to start each of the commands listed in the next few sections, with ``` sudo ```.
 
-Note: if you happen to have Postgresql and/or Redis installed in your system, make sure they are not running when you run Dallinger via Docker.
+**Note:** If you happen to have Postgresql and/or Redis installed in your system, make sure they are not running when you run Dallinger via Docker.
 
 ## Installation continued (all systems)
 
@@ -191,7 +191,7 @@ No testing was done with versions of Windows 8.
 
 These references may prove useful when running Docker in a Windows 10 environment:
 
-#Docker machine
+**Docker machine**
 
 Get ht<span>tps://</span>registry-1.docker.io/v2/: net/http: request canceled while waiting for connection:  
 https://github.com/docker/for-win/issues/611
@@ -199,29 +199,30 @@ https://github.com/docker/for-win/issues/611
 Microsoft edge not seeing the docker-machine IP address:  
 https://www.hanselman.com/blog/FixedMicrosoftEdgeCantSeeOrOpenVirtualBoxhostedLocalWebSites.aspx
 
-#Docker for Windows
+**Docker for Windows**
 
 If you had Docker-toolbox installed before and are now using Docker for Windows:  
 https://github.com/docker/for-win/issues/1746
 
-If your experiment is running but you see no output in the browser window(s) when they launch.
+If your experiment is running but you see no output in the browser window(s) when they launch.  
 Try running the script with the ``-i 127.0.0.1`` option.
 
-When using Docker for Windows, the docker-machine might not be configured correctly.
-Check this by running: ``docker-machine ip``. If you get an error such as:  
+When using Docker for Windows, the docker-machine might not be configured correctly.  
+Check this by running: ``docker-machine ip``.  
+If you get an error such as:  
 ``open C:\Users\admin\.docker\machine\machines\default\config.json: The system cannot find the file specified.``  
-Look into reinstalling the default docker-machine: 
+Look into reinstalling the default docker-machine:  
 ``docker-machine rm -f default``
 and setting up a hyper-v network switch (if you don't have one):  
 https://docs.docker.com/machine/drivers/hyper-v/
-For example after setting up a virtual switch called 'ext' run:
-``docker-machine create -d hyperv --hyperv-virtual-switch ext default``
+For example after setting up a virtual switch called 'ext' run:  
+``docker-machine create -d hyperv --hyperv-virtual-switch ext default``  
 to setup a new default docker-machine.
 
-Other troubleshooting ideas:  
+**Other troubleshooting ideas**
 https://github.com/docker/kitematic/wiki/Common-Issues-and-Fixes
 
-Having said that, this is not a README to get your working in Windows, just some potentially helpful leads that may help you in your process.
+**Note:** this is not a README to get your working in Windows, just some potentially helpful leads that may help you in your process.
 
 
 ## Reference of useful docker-compose commands
@@ -236,4 +237,4 @@ Having said that, this is not a README to get your working in Windows, just some
 * ``` docker-compose build ```
 * ``` docker-compose down --rmi all ```
 
-Note: Under Ubuntu/Linux running these commands might require you to start each of the commands listed above, with ``` sudo ```.
+**Note:** Under Ubuntu/Linux running these commands might require you to start each of the commands listed above, with ``` sudo ```.
