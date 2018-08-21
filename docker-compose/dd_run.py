@@ -3,19 +3,30 @@
 # Windows, MAC (OSX) and Ubuntu/Linux compatible version
 # ======================================================================================================
 # Script settings:
-browser = 'firefox' # Possible options are 'firefox', 'chrome', 'opera' 'safari' for OSX
+
+browser = 'firefox' 
+# Possible options are 'firefox', 'chrome', 'opera' 'safari' for OSX
 # Possible options are 'firefox', 'iexplore', 'chrome', 'opera' 'microsoft-edge' for Windows
-# Possible options are 'firefox', 'google-chrome', 'opera' for Linux. Note Firefox has been found 
+# Possible options are 'firefox', 'google-chrome', 'opera' for Linux. Note Firefox has been found
 # to be the most robust. Opera and Google Chrome may or may not work.
-# modify the script below, if other browser support is needed (line 48)
+# Modify the script below, if other browser support is needed (line 60)
+
 log_file = 'log_dallinger.txt' # Name of output log file to read from
+
 new_window = True # Open new browser windows (Set to False to reuse existing browser windows)
                   # Note: This might not be possible on all browsers listed above
+
 dallinger_startup_delay = 0 # delay in seconds to allow dallinger to complete its startup processes
                             # set to 0 to bypass
+
 override_port = True # This will override the port of the experiment to port 5000
+                     # Otherwise it will keep whatever port the experiment is running on, however this
+                     # may require you to expose those additional ports in the docker-compose.yml file
+
 use_sudo_for_linux = True # This will prepend sudo to all docker commands the script runs in Linux
-use_powershell = False # override to use powershell (in case bash is also installed and you want to use Powershell)
+
+use_powershell = False # override to use Powershell (in case Bash is also installed and you want to
+                       # use Powershell)
 # ======================================================================================================
 
 import getopt
@@ -54,7 +65,7 @@ elif platform == 'Windows':
         browser = 'iexplore'
 elif platform == 'Linux':
     if browser not in ['firefox', 'google-chrome', 'opera']:
-        browser = 'firefox'	
+        browser = 'firefox'
 
 shell = "bash"
 if platform == 'Windows':
@@ -150,7 +161,7 @@ while not experiment_complete:
         print('Ctrl-C pressed.')
         break
 
-    # display log lines that have not been displayed already
+    # display log lines that have not been displayed yet
     try:
         lines_to_print = range(last_log_line_displayed, len(lines)-1)
         for line in lines_to_print:
@@ -255,7 +266,7 @@ while not experiment_complete:
         print('Ctrl-C pressed.')
         break
 
-# SHUTDOWN	
+# SHUTDOWN
 print('')
 print("=========================")
 print('Shutting down Dallinger..')
