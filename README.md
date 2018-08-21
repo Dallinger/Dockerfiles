@@ -207,13 +207,13 @@ https://github.com/docker/for-win/issues/1746
 If your experiment is running but you see no output in the browser window(s) when they launch.  
 Try running the script with the ``-i 127.0.0.1`` option.
 
-When using Docker for Windows, the docker-machine might not be configured correctly.  
+When using Docker for Windows, the default docker-machine might not be configured correctly.  
 Check this by running: ``docker-machine ip``.  
 If you get an error such as:  
 ``open C:\Users\admin\.docker\machine\machines\default\config.json: The system cannot find the file specified.``  
 Consider removing the default docker-machine by: ``docker-machine rm -f default``, setting up a hyper-v network switch (if you don't have one). Read more on this here: https://docs.docker.com/machine/drivers/hyper-v/  
 
-Then you can create a new docker-machine.  
+Then you can create a new default docker-machine.  
 For example after setting up a virtual switch called 'ext' run: ``docker-machine create -d hyperv --hyperv-virtual-switch ext default`` to setup a new default docker-machine.
 
 **Other troubleshooting ideas**  
