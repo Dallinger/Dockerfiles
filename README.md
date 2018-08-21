@@ -187,17 +187,17 @@ The dd_run.py script has been tested with Python 2.7.12, however provisions were
 
 No testing was done with versions of Windows 8.
 
+
 ## Docker troubleshooting on Windows 10
 
-These references may prove useful when running Docker in a Windows 10 environment:
+These references may prove useful when running Docker in a Windows 10 environment.
+
+**Note:** These are just some potentially helpful leads that may help you in your process of getting Docker working under Windows, not by any means complete or exhaustive.
 
 **Docker machine**
 
 Get ht<span>tps://</span>registry-1.docker.io/v2/: net/http: request canceled while waiting for connection:  
 https://github.com/docker/for-win/issues/611
-
-Microsoft edge not seeing the docker-machine IP address:  
-https://www.hanselman.com/blog/FixedMicrosoftEdgeCantSeeOrOpenVirtualBoxhostedLocalWebSites.aspx
 
 **Docker for Windows**
 
@@ -217,9 +217,12 @@ Then you can create a new docker-machine.
 For example after setting up a virtual switch called 'ext' run: ``docker-machine create -d hyperv --hyperv-virtual-switch ext default`` to setup a new default docker-machine.
 
 **Other troubleshooting ideas**  
-https://github.com/docker/kitematic/wiki/Common-Issues-and-Fixes  
 
-**Note:** These are just some potentially helpful leads that may help you in your process of getting Docker working under Windows, not by any means complete or exhaustive.
+Microsoft edge not seeing the docker-machine IP address:  
+https://www.hanselman.com/blog/FixedMicrosoftEdgeCantSeeOrOpenVirtualBoxhostedLocalWebSites.aspx
+
+Common issues and fixes:  
+https://github.com/docker/kitematic/wiki/Common-Issues-and-Fixes  
 
 
 ## Reference of useful docker-compose commands
