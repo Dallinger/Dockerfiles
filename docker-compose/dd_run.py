@@ -17,9 +17,10 @@ override_port = True # This will override the port of the experiment to port 500
 use_sudo_for_linux = True # This will prepend sudo to all docker commands the script runs in Linux
 # ======================================================================================================
 
-import platform
 import getopt
+import io
 import os
+import platform
 import re
 import subprocess
 import sys
@@ -54,6 +55,18 @@ elif platform == 'Linux':
     if browser not in ['firefox', 'google-chrome', 'opera']:
         browser = 'firefox'	
 
+shell = "bash"
+if platform == 'Windows':
+    # Test for the presence of bash
+    try:
+        output = subprocess.check_output([shell,'--version'])
+    except WindowsError:
+        # This likely means that Powershell is being used, as Powershell does not have bash installed.
+        # Use Powershell instead of bash
+        shell = "C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        output = subprocess.check_output([shell, "$PSVersionTable.PSVersion"])
+
+
 # Python 2 and 3 use different urlparse methods
 if sys.version_info[0] == 2:
     from urlparse import urlparse as urlparse
@@ -68,7 +81,7 @@ else:
         # the IP to use will be read directly from docker ideally (unless user overriden)
         if docker_machine_ip == "":
             command = "docker-machine ip"
-            docker_machine_ip = subprocess.check_output(['bash','-c', command])
+            docker_machine_ip = subprocess.check_output([shell,'-c', command])
             docker_machine_ip = docker_machine_ip.strip('\n')
     except:
         if docker_machine_ip == "":
@@ -77,7 +90,7 @@ else:
 # Launch Dallinger
 command = "docker-compose up -d"
 if platform == 'Linux' and use_sudo_for_linux: command = "sudo " + command
-output = subprocess.check_output(['bash','-c', command])
+output = subprocess.check_output([shell, '-c', command])
 
 # delete old output log if it exists
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -109,22 +122,39 @@ displayed_urls = []
 
 experiment_complete = False
 
+last_log_line_displayed = 0
 while not experiment_complete:
     try:
         # Grab the latest state of the outout log
-        command = "docker-compose logs dallinger >& " + log_file
+        command = "docker-compose logs dallinger > " + log_file
         if platform == 'Linux' and use_sudo_for_linux: command = "sudo " + command
-        output = subprocess.check_output(['bash','-c', command])
-        print("Reading Dallinger output log..")
+        output = subprocess.check_output([shell, '-c', command])
+        #print("Reading Dallinger output log..")
         try:
-            f = open(os.path.join(__location__, log_file), 'r');
-            lines = f.readlines()
-            f.close()
+            if shell == 'bash':
+                open_file = io.open(os.path.join(__location__, log_file), 'r');
+            else:
+                # Powershell gives issues: https://stackoverflow.com/questions/28458670/reading-txt-files-in-python
+                open_file = io.open(os.path.join(__location__, log_file), 'r', encoding='utf-16');
+            lines = list(line for line in (l.strip() for l in open_file) if line)
+            open_file.close()
         except IOError:
             print('')
+            print("============================================")
             print("Could not read experiment log file. Exiting.")
+            print("============================================")
             break
+    except KeyboardInterrupt:
+        print('')
+        print('Ctrl-C pressed.')
+        break
 
+    # display log lines that have not been displayed already
+    try:
+        lines_to_print = range(last_log_line_displayed, len(lines)-1)
+        for line in lines_to_print:
+            print lines[line]
+            last_log_line_displayed = line+1
     except KeyboardInterrupt:
         print('')
         print('Ctrl-C pressed.')
@@ -139,7 +169,9 @@ while not experiment_complete:
             for txt in exit_txt:
                 if txt in line:
                     if not experiment_complete:
+                        print("====================")
                         print("Experiment complete.")
+                        print("====================")
                         experiment_complete = True
     except KeyboardInterrupt:
         print('')
@@ -163,9 +195,9 @@ while not experiment_complete:
         # Open dallinger windows in browser specified
         for url in parsed_urls:
             if url not in displayed_urls:
-
+                print("==============================================================================================================")
                 print("Displaying: " + url)
-
+                print("==============================================================================================================")
                 if platform == 'Darwin': # OSX
                     if browser == 'safari':
                         if new_window:
@@ -198,7 +230,11 @@ while not experiment_complete:
                         command = 'start ' + browser + ' \"' + url + '\"'
                     # all other browsers:
                     elif new_window:
-                        command = 'start ' + browser + ' -new-window \"' + url + '\"'
+                        if shell == 'bash':
+                            command = 'start ' + browser + ' -new-window \"' + url + '\"'
+                        else:
+                            # Powershell has different syntax for opening new windows
+                            command = 'start ' + browser + ' \" -new-window ' + url + '\"'
                     else:
                         command = 'start ' + browser + ' \"' + url + '\"'
 
@@ -208,7 +244,10 @@ while not experiment_complete:
                     else:
                         command = browser + ' \"' + url + '\"' + ' &'
 
-                output = subprocess.check_output(['bash','-c', command])
+                if shell != 'bash': command = str(command) # Powershell
+#                import pdb; pdb.set_trace()
+                output = subprocess.check_output([shell, '-c', command])
+#                subprocess.check_output([shell, '-c', 'start firefox -new-window "http://192.168.99.100"'])
                 displayed_urls.append(url)
     except KeyboardInterrupt:
         print('')
@@ -217,7 +256,12 @@ while not experiment_complete:
 
 # SHUTDOWN	
 print('')
+print("=========================")
 print('Shutting down Dallinger..')
+print("=========================")
 command = "docker-compose down"
 if platform == 'Linux' and use_sudo_for_linux: command = "sudo " + command
-output = subprocess.check_output(['bash','-c', command])
+output = subprocess.check_output([shell, '-c', command])
+print("========================")
+print('Docker Cleanup complete.')
+print("========================")
