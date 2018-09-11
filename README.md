@@ -1,4 +1,4 @@
-# State of Docker Compose implementation of Dallinger
+# Docker Compose implementation of Dallinger
 
 11 September 2018
 
@@ -21,14 +21,14 @@ Sandbox mode has not been tested. Running in sandbox mode would rerquire users t
 
 This docker compose implementation is currently only compatible with the master branch of Dallinger.
 Dallinger v4.0.0 is not supported. It will be supported in Dallinger v4.1.0, once released.
-See the Dockerfile for more info.
+See the comments in the Dockerfile for more information.
 
 ## Preinstallation notes
 
-Currently the Dockerfile is setup to clone the master branch of Dallinger and uses that for running experiments.
+Currently the Dockerfile is setup to clone the master branch of Dallinger and use that for running experiments.
 
 It is also possible to run the Dockerfile in the context of your own existing github clone of Dallinger.
-(Note that the version of master should be at least from 11 September 2018 of newer.)
+**Note:** The version of your clone of the master branch, should be from 11 September 2018 of newer.
 If you wish to do this, comment in the following lines in the Dockerfile:
 ```
 RUN mkdir Dallinger 
