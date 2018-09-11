@@ -15,12 +15,10 @@ services:
       - DISPLAY
       - REDIS_URL=redis://redis:6379
       - DATABASE_URL=postgresql://dallinger:dallinger@postgresql/dallinger
-#    command: /bin/bash -c "cd /home/mongates_dallinger_demos/memoryexpt2 && dallinger debug --verbose"
 #    command: /bin/bash -c "cd /home/Dallinger/demos/dlgr/demos/snake && dallinger debug --verbose"
-#    command: /bin/bash -c "cd /home/Griduniverse/dlgr/griduniverse && dallinger debug --verbose"
 #    command: /bin/bash
     command: >
-           /bin/bash -c "cd /home/Dallinger/demos/dlgr/demos/bartlett1932 
+           /bin/bash -c "cd /home/Dallinger/demos/dlgr/demos/bartlett1932
            && dallinger debug --verbose"
     depends_on:
       postgresql:
