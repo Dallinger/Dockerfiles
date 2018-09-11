@@ -28,7 +28,7 @@ See the comments in the Dockerfile for more information.
 Currently the Dockerfile is setup to clone the master branch of Dallinger and use that for running experiments.
 
 It is also possible to run the Dockerfile in the context of your own existing github clone of Dallinger.  
-**Note:** The version of your clone of the master branch, should be from 11 September 2018 of newer.  
+**Note:** The version of your clone of the master branch, should be from 11 September 2018 or newer.  
 If you wish to do this, comment in the following lines in the Dockerfile:
 ```
 RUN mkdir Dallinger 
@@ -169,7 +169,7 @@ This saves the log to the ``` log_dallinger.txt ``` file and also displays it in
 
 ## Known issues
 
-Changing the Postgres version in docker-compose.yml may result in errors later. Postgres may complain and not run stating that the database was previously created with another version of Postgres. Erasing Docker entirely from your machine and reinstalling it fresh worked in solving this. Perhaps other less drastic methods exists but have not been investigated.
+Changing the Postgres version in docker-compose.yml may result in errors later. Postgres may complain and not run, stating that the database was previously created with another version of Postgres. Erasing Docker entirely from your machine and reinstalling it fresh worked in solving this. Perhaps other less drastic methods exist but have not been investigated by us.
 
 If Dallinger runs into an error while executing in the container, it will exit with a non-zero condition. This can be seen with ``` docker-compose ps ``` and it makes it difficult to inspect and debug as one can only bash into a running container. Use the logs in this case to help you.
 
