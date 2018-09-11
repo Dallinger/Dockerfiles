@@ -27,8 +27,8 @@ See the comments in the Dockerfile for more information.
 
 Currently the Dockerfile is setup to clone the master branch of Dallinger and use that for running experiments.
 
-It is also possible to run the Dockerfile in the context of your own existing github clone of Dallinger.
-**Note:** The version of your clone of the master branch, should be from 11 September 2018 of newer.
+It is also possible to run the Dockerfile in the context of your own existing github clone of Dallinger.  
+**Note:** The version of your clone of the master branch, should be from 11 September 2018 of newer.  
 If you wish to do this, comment in the following lines in the Dockerfile:
 ```
 RUN mkdir Dallinger 
