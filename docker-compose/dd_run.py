@@ -91,7 +91,7 @@ if platform in ['Linux', 'Darwin']:
     docker_machine_ip = "0.0.0.0" # backup default
 else:
     try:
-        # the IP to use will be read directly from docker ideally (unless user overriden)
+        # the IP to use will be read directly from docker ideally (unless user overridden)
         if docker_machine_ip == "":
             command = "docker-machine ip"
             docker_machine_ip = subprocess.check_output([shell,'-c', command])
