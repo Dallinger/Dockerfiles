@@ -4,7 +4,7 @@
 
 ## Preamble
 
-We consider this to be working yet experimental feature, not part of dallinger core and likewise not directly supported by the core dallinger development team. 
+We consider this to be working yet experimental feature, not part of Dallinger core and likewise not directly supported by the core Dallinger development team. It is found in the 'docker-compose' folder of this repository.
 
 ## Objectives
 
@@ -125,7 +125,7 @@ python dd_run.py
 ```
 
 This starts up the docker containers in detached mode (just like ```docker-compose up -d``` would).
-Once the parsing of the setup options is complete, it runs until an exit condition is reached, polling the output log of the dallinger experiment and parsing it for new recruitment requests (to open them in browser windows) and for an indication that the experiment has completed.
+Once the parsing of the setup options is complete, it runs until an exit condition is reached, polling the output log of the allinger experiment and parsing it for new recruitment requests (to open them in browser windows) and for an indication that the experiment has completed.
 
 The exit condition detection is rather simple at this point. Parsing the log for text strings. This can be adapted if your experiment has a different text string that indications experiment completion:
 ```
@@ -227,7 +227,7 @@ These references may prove useful when running Docker in a Windows 10 environmen
 
 **Docker machine**
 
-Get ht<span>tps://</span>registry-1.docker.io/v2/: net/http: request canceled while waiting for connection:  
+Get https://registry-1.docker.io/v2/: net/http: request canceled while waiting for connection:  
 https://github.com/docker/for-win/issues/611
 
 **Docker for Windows**
