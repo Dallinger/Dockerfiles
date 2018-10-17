@@ -1,27 +1,29 @@
-# Docker Compose implementation of Dallinger
+# Docker Compose implementation of Dallinger (experimental)
 
-11 September 2018
+17 October 2018
+
+## Preamble
+
+We consider this to be working yet experimental feature, not part of dallinger core and likewise not directly supported by the core dallinger development team. 
 
 ## Objectives
 
-  Ideally
+  Ideally it would be great if
 
-  * Users of Windows, Mac OSX and Ubuntu should be able to run Dallinger experiments and specify the experiment that they wish to run, easily.
+  * Users of Docker on Windows, Mac OSX and Ubuntu would be able to run Dallinger experiments and specify the experiment that they wish to run, easily.
   * Are able to pick the Dallinger release version they want to run the experiments against, or use their own fork of Dallinger to do so with.
 
 ## What works
 
 Bartlett, Memory experiment 2 and Snake have been run successfully (debug mode).
 
-There are currently unsolved issues with running GridUniverse with Docker.
+There are currently unsolved issues with running the GridUniverse experiment using this Docker Compose method.
 
-Sandbox mode has not been tested. Running in sandbox mode would rerquire users to supply their credentials to the container to login via Heroku. Unsolved and unattempted.
+Sandbox mode has not been tested. Running in sandbox mode would rerquire users to supply their credentials to the container to login via Heroku. Unsolved and to date, unattempted.
 
 ## Compatibility
 
-This docker compose implementation is currently only compatible with the master branch of Dallinger.
-Dallinger v4.0.0 is not supported. It will be supported in Dallinger v4.1.0, once released.
-See the comments in the Dockerfile for more information.
+This Docker Compose implementation is currently only compatible with the master branch of Dallinger and Dallinger v5.0.0 (once released). Dallinger v4.0.0 is not supported. See the comments in the Dockerfile for more information.
 
 ## Preinstallation notes
 
@@ -49,9 +51,11 @@ Note that running VPN software may interfere in the setup and running processes 
 
 Make sure that Python is installed on your system.
 
-As a preliminary step, I find that running Kitematic first (until it asks for a Dockerhub account login) seems to smooth out the process of Docker initializing itself on a Windows7 machine. This installs and sets up virtualbox which is needed for the docker-machine to run, which is required by the dd_run.py script.
+As a preliminary step, I find that running Kitematic first (until it asks for a Dockerhub account login) seems to smooth out the process of Docker initializing itself on a Windows 7 machine. This installs and sets up virtualbox which is needed for the docker-machine to run, which is required by the dd_run.py script.
 
 Open Docker Quickstart Terminal (interactive command line shell)
+
+Continue with instructions from "Installation continued" section below
 
 ### Windows 10 (using Docker for Windows)
 
@@ -59,9 +63,13 @@ Make sure that Python is installed on your system.
 
 Run the Powershell app as an administrator
 
+Continue with instructions from "Installation continued" section below
+
 ### Mac OSX
 
 Navigate to a new terminal and continue with instructions in "Installation continued (all systems)" section.
+
+Continue with instructions from "Installation continued" section below
 
 ### Ubuntu/Linux
 
@@ -74,6 +82,8 @@ Open another terminal where you will run docker commands and script.
 **Note:** Under Ubuntu/Linux running docker commands might require you to start each of the commands listed in the next few sections, with ``` sudo ```.
 
 **Note:** If you happen to have Postgresql and/or Redis installed in your system, make sure they are not running when you run Dallinger via Docker.
+
+Continue with instructions from "Installation continued" section below
 
 ## Installation continued (all systems)
 
@@ -91,7 +101,7 @@ To stop your containers:
 
 The experiment that will be run is set in docker-compose.yml
 
-It can be written as one or multiline:
+The command can be written as one line or as multiple lines:
 
 ``` command: /bin/bash -c "cd /home/Dallinger/demos/dlgr/demos/bartlett1932 && dallinger debug --verbose" ```
 
@@ -107,7 +117,7 @@ The Dockerfile is setup to clone all repositories to the home directory of the c
 
 ## Running the dd_run.py script
 
-The script has been written in Python and contains several configuration parameters (mentioned in the next section).
+The script has been written in Python and contains several configuration parameters (mentioned in the next "dd_run.py configuration options" section).
 
 To run the script:
 ```
@@ -117,16 +127,16 @@ python dd_run.py
 This starts up the docker containers in detached mode (just like ```docker-compose up -d``` would).
 Once the parsing of the setup options is complete, it runs until an exit condition is reached, polling the output log of the dallinger experiment and parsing it for new recruitment requests (to open them in browser windows) and for an indication that the experiment has completed.
 
-The exit condition detection is rather simple at this point. Parsing the log for:
+The exit condition detection is rather simple at this point. Parsing the log for text strings. This can be adapted if your experiment has a different text string that indications experiment completion:
 ```
 exit_txt = ["Experiment completed", "Cleaning up local Heroku process"]
 ```
 or for a ``` KeyboardInterrupt ``` (Ctrl-C) condition.
 
-After an exit condition is reached, the script will shutdown the docker containers and exit. It can take a moment for the script to realize that the experiment has completed.
+After an exit condition is reached, the script will shutdown the docker containers and exit. It can take a moment for the script to detect that the experiment has completed.
 
-If the dd_run.py script needed to be preemptively stopped (Ctrl-C), it is necessary to run the ``` docker-compose stop ``` command to stop the containers before running the script again.
-Alternatively the dd_stop.sh script can be used by running: ``` ./dd_stop.sh ```, which will stop the containers and display their stopped status after by calling ``` docker-compose ps ```.
+If the running dd_run.py script needed to be preemptively stopped (Ctrl-C), it is necessary to run the ``` docker-compose stop ``` command to stop the containers before running the script again.
+Alternatively the dd_stop.sh script can be used for this purpose by running: ``` ./dd_stop.sh ```, which will stop the containers and display their stopped status after by calling ``` docker-compose ps ```.
 
 **Note:** If the experiment uses another method to indicate that it has completed than the ones specified in the script, it is necessary to manually stop the script using Ctrl-C, and in the case that the script does not shutdown the containers manually, follow with the cleanup mentioned in the previous paragraph.
 
@@ -142,15 +152,15 @@ eg: ``` python dd_run.py -b firefox -i 192.168.99.100 ```
 
 Firefox is currently set as the default browser (however no testing takes place to check if the browser has been installed on the system). The possible browser options are: 'firefox', 'iexplore', 'chrome', 'opera' and 'microsoft-edge'. This can be expanded.
 
-Any exposed ports are available on the Docker host’s IP address (known as the "docker-machine ip").
+Any Dockerfile exposed ports are available on the Docker host’s IP address (known as the "docker-machine ip").
 This is determined internally by the script however can be manually overwritten in the command line or in the script settings.
 
 In the script there are other configuration options documented at the beginning of the dd_run.py script itself, namely: 
 
 * ``` browser ``` - which browser to use (command line takes priority)
-* ``` log_file  ``` - name of output log file to read from, to poll for experiment output.
-* ``` new_window ``` - open new browser windows (Set to False to reuse existing browser windows)
-* ``` dallinger_startup_delay ``` - delay in seconds to allow Dallinger to complete its startup processes (tweak this if browsers open up too soon)
+* ``` log_file  ``` - name of output log file to read from and to poll for experiment output.
+* ``` new_window ``` - open new browser windows (Set to False to reuse existing browser window and create new tabs)
+* ``` dallinger_startup_delay ``` - delay in seconds to allow Dallinger to complete its startup processes (tweak this if browser windows/tabs open up too soon)
 * ``` override_port ``` - This will override all the port parts of the experiment's urls to port 5000, otherwise whatever port the experiment desires will be used (however it might be necessary to expose those ports in the Dockerfile first)
 
 
@@ -174,7 +184,7 @@ Changing the Postgres version in docker-compose.yml may result in errors later. 
 If Dallinger runs into an error while executing in the container, it will exit with a non-zero condition. This can be seen with ``` docker-compose ps ``` and it makes it difficult to inspect and debug as one can only bash into a running container. Use the logs in this case to help you.
 
 It should, in theory, be possible to run the experiment from inside the container manually, using: ``` docker-compose exec dallinger bash ``` to enter the container (while the container is running) and then navigating to the experiment directory and running the experiment etc. (The initial command should be set to ``` command: /bin/bash ``` in the docker-compose.yml in this case.)
-However, I have found that in such scenarios the output stops more or less after the Dallinger ascii art logo and there is no indication of activity beyond that point. Parsing the logs later after exiting the container has been found to yield no useful information as to whether	the experiment ran or not.
+However, I have found that in such scenarios the output stops more or less after the Dallinger ascii art logo and there is no indication of activity beyond that point. Parsing the logs later after exiting the container has been found to yield no useful information as to whether the experiment ran or not.
 
 
 ## Making changes
@@ -192,20 +202,19 @@ I find the following process to be more foolproof (although more time and bandwi
 
 ## Compatibility and testing notes
 
-Windows 7 currently supports Docker-Toolbox (an older version of Docker).
-Docker-Toolbox is the recommended version for Windows 7 and the newer Docker Community Edition/Docker for Windows will not install on Windows 7.
+Windows 7 currently supports Docker-Toolbox (an older version of Docker). Docker-Toolbox is the recommended version for Windows 7 and the newer Docker Community Edition/Docker for Windows will not install on Windows 7.
 
-Windows 10 also supports Docker-Toolbox, this script has been tested to be working in Windows 10 using Docker-Toolbox.
+Windows 10 also supports Docker-Toolbox, this script has been tested to be working under Windows 10 using Docker-Toolbox.
 
 Docker for Windows under Windows 10 is also supported, as the script allows one to use Powershell instead of Bash.
 If Bash is installed on Windows 10 as part of the "Windows Sybsystem for Linux" option, it will likely be good to force
 the script to use Powershell. This is a configurable setting in the script.
 
-Tested on Ubuntu 16.04. Firefox has been found to be the most dependable browser as Google Chrome and Opera both polluted the terminal with their own output, blocking the script from running correctly until the browser window was closed. This may have been due to running Ubuntu in a VM however, more testing has not been done.
+Tested on Ubuntu 16.04. Firefox has been found to be the most dependable browser as Google Chrome and Opera both polluted the terminal with their own output, blocking the script from running correctly until the browser window was closed. This may have been due to running Ubuntu in a Virtual Machine (Vmware) however, more testing has not been done.
 
-Tested on OSX 10.13. Safari has been found to be buggy. Google Chrome is recommended as Firefox has trouble opening more than one instance of Firefox under OSX without additional tweaking. See https://stackoverflow.com/questions/43294774/how-to-open-new-window-in-firefox-with-terminal-on-mac
+Tested on Mac OSX 10.13. Safari has been found to be buggy. Google Chrome is recommended as Firefox has trouble opening more than one instance of Firefox under OSX without additional tweaking. See https://stackoverflow.com/questions/43294774/how-to-open-new-window-in-firefox-with-terminal-on-mac
 
-The dd_run.py script has been tested with Python 2.7.12, however provisions were made in the script to work with Python 3 (not explicitly tested)
+The dd_run.py script has been tested with Python 2.7.12, however provisions were made in the script to work with Python 3 (not explicitly tested).
 
 No testing was done with versions of Windows 8.
 
@@ -259,4 +268,4 @@ https://github.com/docker/kitematic/wiki/Common-Issues-and-Fixes
 * ``` docker-compose build ```
 * ``` docker-compose down --rmi all ```
 
-**Note:** Under Ubuntu/Linux running these commands might require you to start each of the commands listed above, with ``` sudo ```.
+**Note:** Under Ubuntu/Linux running these commands might require you to prepend each of the commands listed above, with ``` sudo ```.
