@@ -3,12 +3,12 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 LABEL Description="Docker Compose implementation of Dallinger" Version="1.0"
 
-# This docker compose implementation is not compatible with version 4.0 of Dallinger
+# This docker compose implementation is not compatible with version 4.0.0 of Dallinger.
 # The fix to make this compatible with Dallinger was merged to master on 10 September 2018
 # https://github.com/Dallinger/Dallinger/pull/1336
 
-# Not in use currently, can be used once 4.1.0 is released
-#ARG DALLINGER_VERSION=4.1.0
+# Not in use currently, can be used once version 5.0.0 is released
+#ARG DALLINGER_VERSION=5.0.0
 
 # Expose web server
 EXPOSE 5000
