@@ -1,6 +1,6 @@
 # Docker Compose implementation of Dallinger (experimental)
 
-17 October 2018
+29 October 2018
 
 ## Preamble
 
@@ -15,7 +15,7 @@ We consider this to be working yet experimental feature, not part of Dallinger c
 
 ## What works
 
-Bartlett, Memory experiment 2 and Snake have been run successfully (debug mode).
+Bartlett 1932 demo has been run successfully (debug mode).
 
 There are currently unsolved issues with running the GridUniverse experiment using this Docker Compose method.
 
@@ -23,7 +23,7 @@ Sandbox mode has not been tested. Running in sandbox mode would rerquire users t
 
 ## Compatibility
 
-This Docker Compose implementation is currently only compatible with the master branch of Dallinger and Dallinger v5.0.0 (once released). Dallinger v4.0.0 is not supported. See the comments in the Dockerfile for more information.
+This Docker Compose implementation is currently only compatible with the master branch of Dallinger and Dallinger v5.0.0. Dallinger v4.0.0 and older versions are not supported. See the comments in the Dockerfile for more information.
 
 ## Preinstallation notes
 
