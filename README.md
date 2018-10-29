@@ -15,7 +15,7 @@ We consider this to be working yet experimental feature, not part of Dallinger c
 
 ## What works
 
-Bartlett 1932 demo has been run successfully (debug mode).
+The Bartlett 1932 demo experiment has been run successfully (debug mode).
 
 There are currently unsolved issues with running the GridUniverse experiment using this Docker Compose method.
 
